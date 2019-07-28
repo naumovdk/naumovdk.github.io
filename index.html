@@ -2,11 +2,10 @@
   <body>
     <script type="text/javascript">
 
-        url = window.location.href
-        if (url.indexOf('#') === -1) {
+        if (window.location.href.indexOf('#') === -1) {
             document.location.href = 'https://oauth.vk.com/authorize?client_id=7074304&display=page&redirect_uri=https://naumovdk.github.io&scope=friends&response_type=token&v=5.101'
         } else {
-            localStorage["access_token"] = url.split('#')[1].split('=')[1].split('&')[0]
+            localStorage["access_token"] = window.location.href.split('#')[1].split('=')[1].split('&')[0]
         }
 
         if ("access_token" in localStorage) {
