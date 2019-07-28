@@ -2,12 +2,12 @@
   <body>
     <script type="text/javascript">
         if ("access_token" in localStorage) {
-            alert(window.location.href.split('#')[1].split('=')[1].split['&'][0])
+            alert(window.location.href.split('#')[1].split('=')[1].split('&')[0])
             alert(localStorage["access_token"])
         } else {
             document.location.href = 'https://oauth.vk.com/authorize?client_id=7074304&display=page&redirect_uri=https://naumovdk.github.io&scope=friends&response_type=token&v=5.101'
             try {
-                window.localStorage["access_token"] = window.location.href.split('#')[1].split('=')[1].split['&'][0]
+                window.localStorage["access_token"] = window.location.href.split('#')[1].split('=')[1].split('&')[0]
             } catch (e) {
                 window.localStorage["access_token"] = "invalid param"
                 alert(e.message)
