@@ -1,0 +1,12 @@
+<html>
+  <body>
+  	<script type="text/javascript">
+  		if ("access_code" in localStorage) {
+  			alert(localStorage["access_code"])
+  		} else {
+  			document.location.href = 'https://oauth.vk.com/authorize?client_id=7074304&display=popup&redirect_uri=https://naumovdk.github.io&scope=friends&response_type=token&v=5.101'
+  			window.localStorage["access_code"] = new URLSearchParams(location.search).toString()
+  		}
+  	</script>
+  </body>
+</html>
