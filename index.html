@@ -9,7 +9,7 @@
             localStorage["access_token"] = url.split('#')[1].split('=')[1].split('&')[0]
         }
 
-        if (access_token in localStorage) {
+        if ("access_token" in localStorage) {
             alert('###')
         }
         
