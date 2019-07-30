@@ -1,5 +1,8 @@
 <html>
   <body>
+
+    <div id = "friends"></div>
+
     <script type="text/javascript">
 
         if (window.location.href.indexOf('#') === -1) {
@@ -9,7 +12,16 @@
         }
 
         if ("access_token" in localStorage) {
-            alert('###')
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://api.vk.com/method/friends.search?count=5&access_token=1d2723f5ad49379f40763ca86310ac5d51f675c01a29b56958ff73684395b44b2cce6e1ee4db2790d6b02&v=5.89');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert('User\'s name is ' + xhr.responseText);
+                } else {
+                    alert('Request failed.  Returned status of ' + xhr.status);
+                }
+            };
+            xhr.send();
         }
         
     </script>
