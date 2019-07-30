@@ -12,16 +12,49 @@
         }
 
         if ("access_token" in localStorage) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://api.vk.com/method/friends.search?count=5&access_token=1d2723f5ad49379f40763ca86310ac5d51f675c01a29b56958ff73684395b44b2cce6e1ee4db2790d6b02&v=5.89');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    alert('User\'s name is ' + xhr.responseText);
-                } else {
-                    alert('Request failed.  Returned status of ' + xhr.status);
+            function jsonpQuery(method, params) {
+                url = "https://api.vk.com/method/" + method + "?"
+                for (i = 0; i < params.length; i++) {
+                    url += "&" + params[i]
+                }  
+
+                script = document.createElement('SCRIPT');
+                script.type = "text/javascript"
+                script.src = url
+                document.getElementsByTagName("head")[0].appendChild(script)
+            }
+
+            jsonpQuery("users.get", ["access_token=" + localStorage.access_token, "fields=photo_200", "v=5.101", "callback=getUser"])
+             
+            function getUser(result) {
+                window.userInfo = result.response[0]
+                user = '<a target="_blank" href="https://vk.com/"' + userInfo["id"] + '">'
+                    + '<img src = "' + userInfo["photo_200"] + '"/>'
+                        + '<div>'
+                            + '<h4>' + userInfo["first_name"] + ' ' + userInfo["last_name"] + '</h4>'
+                        + '<div>'
+                    + '</a>'
+                document.getElementById("user").innerHTML = user
+                jsonpQuery("friends.search", ["access_token=" + localStorage.access_token, "user_id=" + userInfo["id"], "count=5", "fields:last_name,second_name,photo_200", "name_case=nom", "v=5.101", "callback=getFriends"])
+            }
+
+            function getFriends(result) {
+                friends = result.response["items"]
+                html = ''
+                for (i = 0; i < friends.length; i++) {
+                    f = friends[i]
+
+                    html += '<li>'
+                            + '<a target="_blank" href="https://vk.com/id' + f["id"] + '">'
+                                + '<img src="' + f["photo_200"] + '"/>' 
+                                + '<div>'
+                                    + '<h4>' + f["first_name"] + ' ' + f["last_name"] + '</h4>'
+                                + '</div>'
+                            + '</a>'
+                        + '</li>'
                 }
-            };
-            xhr.send();
+                document.getElementById("friends").innerHTML = html
+            }
         }
         
     </script>
