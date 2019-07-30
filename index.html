@@ -60,7 +60,7 @@
                  
                 function getUser(result) {
                     window.userInfo = result.response[0]
-                    user = '<a target="_blank" href="https://vk.com/' + userInfo.id + '">'
+                    user = '<a target="_blank" href="https://vk.com/id' + userInfo.id + '">'
                         + '<img src = "' + userInfo.photo_200 + '"/>'
                             + '<div>'
                                 + '<h4>' + userInfo.first_name + ' ' + userInfo.last_name + '</h4>'
