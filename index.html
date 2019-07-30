@@ -36,7 +36,7 @@
                             + '<div>'
                         + '</a>'
                     document.getElementById("user").innerHTML = user
-                    jsonpQuery("friends.search", ["access_token=" + localStorage.access_token, "user_id=" + userInfo["id"], "count=5", "fields:last_name,second_name,photo_200", "name_case=nom", "v=5.101", "callback=getFriends"])
+                    jsonpQuery("friends.search", ["access_token=" + localStorage.access_token, "user_id=" + userInfo["id"], "count=5", "fields=last_name,second_name,photo_200", "name_case=nom", "v=5.101", "callback=getFriends"])
                 }
 
                 function getFriends(result) {
