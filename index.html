@@ -9,12 +9,12 @@
             if (window.location.href.indexOf('#') === -1) {
                 document.location.href = 'https://oauth.vk.com/authorize?client_id=7074304&display=page&redirect_uri=https://naumovdk.github.io&scope=friends&response_type=token&v=5.101'
             } else {
-                localStorage["access_token"] = window.location.href.split('#')[1].split('=')[1].split('&')[0]
+                localStorage.access_token = window.location.href.split('#')[1].split('=')[1].split('&')[0]
             }
 
             if ("access_token" in localStorage) {
                 function jsonpQuery(method, params) {
-                    url = "https://api.vk.com/method/" + method + "?"
+                    url = "https://api.vk.com/method/" + method + "?" + "access_token=" + localStorage.access_token + "&v=5.101"
                     for (i = 0; i < params.length; i++) {
                         url += "&" + params[i]
                     }  
@@ -25,18 +25,19 @@
                     document.getElementsByTagName("head")[0].appendChild(script)
                 }
 
-                jsonpQuery("users.get", ["access_token=" + localStorage.access_token, "fields=photo_200", "v=5.101", "callback=getUser"])
+                jsonpQuery("users.get", ["fields=photo_200", "callback=getUser"])
                  
                 function getUser(result) {
                     window.userInfo = result.response[0]
-                    user = '<a target="_blank" href="https://vk.com/"' + userInfo["id"] + '">'
-                        + '<img src = "' + userInfo["photo_200"] + '"/>'
+                    user = '<a target="_blank" href="https://vk.com/"' + userInfo.id + '">'
+                        + '<img src = "' + userInfo.photo_200 + '"/>'
                             + '<div>'
-                                + '<h4>' + userInfo["first_name"] + ' ' + userInfo["last_name"] + '</h4>'
+                                + '<h4>' + userInfo.first_name + ' ' + userInfo.last_name + '</h4>'
                             + '<div>'
                         + '</a>'
                     document.getElementById("user").innerHTML = user
-                    jsonpQuery("friends.search", ["access_token=" + localStorage.access_token, "user_id=" + userInfo["id"], "count=5", "fields=last_name,second_name,photo_200", "name_case=nom", "v=5.101", "callback=getFriends"])
+                    jsonpQuery("friends.search",
+                        ["user_id=" + userInfo["id"], "count=5", "fields=last_name,second_name,photo_200", "name_case=nom", "callback=getFriends"])
                 }
 
                 function getFriends(result) {
@@ -46,10 +47,10 @@
                         f = friends[i]
 
                         html += '<li>'
-                                + '<a target="_blank" href="https://vk.com/id' + f["id"] + '">'
-                                    + '<img src="' + f["photo_200"] + '"/>' 
+                                + '<a target="_blank" href="https://vk.com/id' + f.id + '">'
+                                    + '<img src="' + f.photo_200 + '"/>' 
                                     + '<div>'
-                                        + '<h4>' + f["first_name"] + ' ' + f["last_name"] + '</h4>'
+                                        + '<h4>' + f.first_name + ' ' + f.last_name + '</h4>'
                                     + '</div>'
                                 + '</a>'
                             + '</li>'
